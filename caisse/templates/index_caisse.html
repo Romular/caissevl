@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-xs-9">
+    {% for categorie in categorie_list %}
+    <div class="row">
+        <div class="col-xs-12 category-title">
+        {{categorie}}
+        </div>
+    </div>
+
+      {% for article in categorie.articles.all %}
+          <div class="menu-index" id="article_{{article.id}}">
+            <a href="#"><img width="140" height="140" src="{{ article.image.url }}"></a> <br />
+            <a href="#">{{ article }} <br /> {{article.prix_vente}} €</a>
+          </div>
+      {% endfor %}
+    {% endfor %}
+
+  </div>
+  <div class="col-xs-3">
+    <div class="row">
+        <div class="col-xs-12 center">
+        <br />
+          <a href="#" class="btn btn-primary" id="nouvelle_commande">Nouvelle commande</a>
+        </div>
+        <div class="col-xs-12 center">
+          Commande n°<span id="id_commande">&nbsp;</span>
+        </div>
+        <div class="col-xs-12 center">
+          <span id="prix_total">0</span> €
+        </div>
+        <div class="col-xs-12">
+          <ul id="lignes_commande">
+          </ul>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script>
+
+id_commande = 0;
+
+function delete_line(ligne_id) {
+  $.getJSON("/ajax_remove_article_commande/?id_line_commande=" + ligne_id, function(result){
+    itemlist = "#li_id_" + ligne_id;
+    $(itemlist).remove()
+    $("#prix_total").html(result["prix_total"]);
+  });
+}
+
+// Nouvelle commande au chargement
+$.getJSON("/ajax_nouvelle_commande/", function(result){
+  $("#id_commande").html(result['id']);
+  id_commande = result['id']
+  $("#ligne_commande").html("");
+  $("#prix_total").html("0");
+});
+
+
+$( "#nouvelle_commande" ).click(function() {
+  // marque la commande précédente comme payée, puis crée une nouvelle commande
+  $.getJSON("/ajax_nouvelle_commande/?id_paye=" + id_commande, function(result){
+    $("#id_commande").html(result['id']);
+    id_commande = result['id']
+    $("#lignes_commande").empty();
+    $("#prix_total").html("0");
+  });
+});
+
+{% for article in article_list %}
+
+  $("#article_{{article.id}}").click(function() {
+    // Appel AJAX pour ajouter l'article a la commande
+    $.getJSON("/ajax_add_article_commande/?id_commande=" + $("#id_commande").html() + "&id_article={{article.id}}", function(result){
+      // mise a jour du prix total de la commande
+      $("#prix_total").html(result["prix_total"]);
+      //Ajout de l'article au pannier
+      $("#lignes_commande").append('<li id="li_id_' + result["ligne_id"] + '"><a href="#" class="btn btn-default" onclick="delete_line(' + result["ligne_id"] + ');"><i class="fa fa-times" aria-hidden="true"></i></a><span id="ligne_' + result["ligne_id"] + '" > ' + result["ligne_article"] + '</span></li>');
+    });
+  });
+
+{% endfor %}
+
+</script>
+{% endblock javascript %}

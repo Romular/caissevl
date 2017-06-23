@@ -1,0 +1,61 @@
+li {
+  list-style-type:none;
+  font-size: 1.5em;
+}
+
+body {
+  font-size: 1.5em;
+}
+
+div .menu-index {
+  box-sizing:border-box;
+  width:240px;
+  border:0.1em #0075E2 solid;
+  float:left;
+  text-align: center;
+  margin: 0.5em;
+  padding: 0.5em;
+  text-shadow: white 0px 0px 5px;
+  box-shadow: 2px 2px 4px #000000;
+  font-size: 1.5em;
+}
+
+
+.message-success {
+  text-align: center;
+  font-size: 1.2em;
+  box-shadow: 2px 2px 4px #A6DF2A;
+  /* border: 2px solid #A6DF2A; */
+  margin: 5px 5px 5px 5px;
+}
+
+.message-error {
+  text-align: center;
+  font-size: 1.2em;
+  box-shadow: 2px 2px 4px #AD2324;
+  /* border: 2px solid #AD2324; */
+  margin: 5px 5px 5px 5px;
+}
+
+div .category-title {
+  box-sizing: border-box;
+  width: 100%;
+  border: 0.1em #0075E2 solid;
+  text-align: center;
+  margin: 0.2em;
+  padding: 0.2em;
+  background-color: #0057E2;
+  color: #FFFFFF;
+  box-shadow: 2px 2px 4px #000000;
+  font-size: 1.5em;
+}
+
+.center {
+  text-align: center;
+}
+
+#prix_total {
+  color: #FF0000;
+  font-weight: bold;
+  font-size: 2.5em;
+}

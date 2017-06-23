@@ -1,6 +1,6 @@
 db.sqlite3
 caissevl/settings.py
-
+media/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
