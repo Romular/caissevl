@@ -1,6 +1,6 @@
 li {
   list-style-type:none;
-  font-size: 1.5em;
+  font-size: 0.7em;
 }
 
 body {
@@ -9,7 +9,7 @@ body {
 
 div .menu-index {
   box-sizing:border-box;
-  width:240px;
+  width:90px;
   border:0.1em #0075E2 solid;
   float:left;
   text-align: center;
@@ -17,7 +17,7 @@ div .menu-index {
   padding: 0.5em;
   text-shadow: white 0px 0px 5px;
   box-shadow: 2px 2px 4px #000000;
-  font-size: 1.5em;
+  font-size: 0.7em;
 }
 
 
