@@ -126,3 +126,12 @@ Open http://<ip_of_server>/, and you will be able to add items to basket, and pu
 
 Open http://<ip_of_server>/stats/ to see sums os sells and money gains
 
+# TODO
+
+* Show the last 3 commands of the curent cash register on the "Take Order" page
+* More stats and graphs
+* An admin must be able to add new items on menu
+* An admin must be able to mark items as "Out of stock" so they can't be purchased, and are removed from the cash register
+* Remove the "New Command" button, and replace with 2 buttons, "Cash" and "Credit card"
+* Create a menu page, auto updated, with articles and categories that can be puchased, to show on TV screen
+* Possibility for an admin to register cost prices, to calculate gross margin and earnings
