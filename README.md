@@ -34,7 +34,8 @@ We will install caissevl and all dependencies in /opt/caissevl
 
 All commands :
 
-''' sudo apt install python3-venv supervisor
+```sh
+ sudo apt install python3-venv supervisor
 cd /opt
 sudo pyvenv-3.4 caissevl
 chmod -R 777 caissevl
@@ -45,25 +46,27 @@ source bin/activate
 pip install Django gunicorn
 cd caissevl/caissevl
 cp settings-dist.py settings.py
-'''
+```
 
 The only thing you may need to modify is the secret key
 
-'''cd /opt/caissevl/caissevl
+```sh
+cd /opt/caissevl/caissevl
 python manage.py migrate
 python manage.py collectstatic
-'''
+```
 
 now, create a superuser
 
-'''python manage.py chreatesuperuser
-'''
+```sh
+python manage.py chreatesuperuser
+```
 
 Enter the desired admin username, email and password
 
 Create a new file, named gunicorn.sh in /opt/caissevl/bin :
 
-'''
+```
 #!/bin/bash
 NAME="caissevl" # Name of the application
 DJANGODIR=/opt/caissevl/caissevl # Django project directory
@@ -94,26 +97,26 @@ test -d $RUNDIR || mkdir -p $RUNDIR
 
 # Programs meant to be run under supervisor should not daemonize themselves (do not use –daemon)
 exec /opt/caissevl/bin/gunicorn ${DJANGO_WSGI_MODULE}:application --name $NAME --workers 5 --max-requests 1 --user=$USER --group=$GROUP --log-level=error --log-file=- -b 0.0.0.0:80
-'''
+```
 
 Create a conf for Supervisor
 
-'''
+```
 [program:caissevl]
 command = /opt/caissevl/bin/gunicorn.sh
 user = root
 stdout_logfile = /opt/caissevl/logs/supervisor.log
 redirect_stderr = true
 environment=LANG=fr_FR.UTF-8,LC_ALL=fr_FR.UTF-8
-'''
+```
 
 You can of course change these settings according to your needs
 
 Now start app :
 
-'''
+```sh
 sudo supervisorctl start caissevl
-'''
+```
 
 You can now connect to http://<ip_of_server>/admin/, and log on with your username and password
 
