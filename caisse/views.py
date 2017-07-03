@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import Categorie, Commande, Article, LigneCommande
 import json
+from django.db.models import Sum
 
 
 def index_caisse(request):
@@ -56,3 +57,14 @@ def ajax_remove_article_commande(request):
         "prix_total": commande.get_prix_total(),
     }
     return HttpResponse(json.dumps(ret), content_type='application/json')
+
+
+def stats(request):
+    template = loader.get_template('stats.html')
+    article_list = Article.objects.all()
+    ca_total = LigneCommande.objects.filter(commande__payee=True).aggregate(Sum('prix_vente'))['prix_vente__sum']
+    context = {
+        "article_list": article_list,
+        "ca_total": ca_total,
+    }
+    return HttpResponse(template.render(context, request))

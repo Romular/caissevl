@@ -34,6 +34,17 @@ class Article(models.Model):
     class Meta:
         ordering = ["ordre"]
 
+    @property
+    def nb_ventes(self):
+        """
+            Retourne le nombre d'articles vendus
+        """
+        return LigneCommande.objects.filter(article=self).filter(commande__payee=True).count()
+
+    @property
+    def revenus(self):
+        return LigneCommande.objects.filter(article=self).filter(commande__payee=True).aggregate(Sum('prix_vente'))['prix_vente__sum']
+
 
 class Commande(models.Model):
     montant_total_final = models.FloatField(default=0)

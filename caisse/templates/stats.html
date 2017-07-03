@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Statistiques buvette{% endblock title %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'rickshaw/rickshaw.css' %}">
+{% endblock css %}
+
+{% block header_js %}
+  <script src="{% static 'rickshaw/vendor/d3.min.js' %}"></script>
+  <script src="{% static 'rickshaw/vendor/d3.layout.min.js' %}"></script>
+  <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
+{% endblock header_js %}
+{% block content %}
+<h1>Total de ventes : {{ca_total}} €</h1><br /><br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Article
+            </th>
+            <th>
+                PU
+            </th>
+            <th>
+                Ventes
+            </th>
+            <th>
+                CA
+            </th>
+        </tr>
+    </thead>
+<tbody>
+{% for article in article_list %}
+<tr>
+    <td>{{article.nom}}</td>
+    <td>{{article.prix_vente}}</td>
+    <td>{{article.nb_ventes}}</td>
+    <td>{{article.revenus}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<div id="chart_ventes"></div>
+
+
+{% endblock content %}
+{% block javascript %}
+<script>
+var graph_ventes = new Rickshaw.Graph( {
+    element: document.querySelector("#chart_ventes"),
+    renderer: 'bar',
+    height: 150,
+    width: 400,
+    interpolation: 'linear',
+    series: [{
+        color: 'steelblue',
+        data: [],
+        name: 'Ventes par Heure',
+    },]
+});
+graph_ventes.render();
+var xAxis_rebuts = new Rickshaw.Graph.Axis.Time({
+    graph: graph_ventes,
+    timeFixture: new Rickshaw.Fixtures.Time.Local()
+});
+xAxis_rebuts.render();
+var yAxis_rebuts = new Rickshaw.Graph.Axis.Y({
+    graph: graph_ventes,
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+});
+yAxis_rebuts.render();
+</script>
+{% endblock javascript %}
+
